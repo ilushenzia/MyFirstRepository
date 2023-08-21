@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib import admin
+from django.utils import timezone
+from django.utils.html import format_html
 
 # Create your models here.
 class Advs(models.Model):
@@ -8,7 +11,26 @@ class Advs(models.Model):
     auction = models.BooleanField('Торг', help_text = 'Отметьте, если торг уместен')
     created_at = models.DateTimeField(auto_now_add = True) # заполнение только при создании
     updated_at = models.DateTimeField(auto_now = True) # заполнение при любом обновлении
+
+    @admin.display(description = 'дата создания') # создание столбца с красивым отображением времени создания объявления
+    def created_date(self):
+        if self.created_at.date() == timezone.now().date(): # если выложили сегодня, то
+            created_time = self.created_at.time().strftime('%H:%M:%S')
+            return format_html(
+                '<span style = "color : green; font-weight : bold">Сегодня в {}</span>', created_time # зелёным цветом показываем только время создания
+            )
+        return self.created_at.strftime('%d.%m.%Y at %H:%M:%S') # если нет, то полностью пишем дату и время. После добавляем в admin в list_display
+
+    @admin.display(description='дата обновления')
+    def updated_date(self):
+        if self.updated_at.date() == timezone.now().date():
+            updated_time = self.updated_at.time().strftime('%H:%M:%S')
+            return format_html(
+                '<span style = "text-shadow : 0 0 5px Lime; font-weight : bold">Сегодня в {}</span>', updated_time
+            )
+        return self.updated_at.strftime('%d.%m.%Y at %H:%M:%S')
+
     class Meta:
-        db_table = 'advertisements'
-    def __str__(self):
+        db_table = 'advertisements' # отображение названия
+    def __str__(self): # настройка отображения при запросе через
         return f'<Advertisement: Advertisement(id={self.id}, title={self.title}, price={self.price})>'
