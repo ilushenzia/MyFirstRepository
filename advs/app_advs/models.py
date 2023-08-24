@@ -2,8 +2,12 @@ from django.db import models
 from django.contrib import admin
 from django.utils import timezone
 from django.utils.html import format_html
+from django.contrib.auth import get_user_model
 
 # Create your models here.
+
+user = get_user_model()
+
 class Advs(models.Model):
     title = models.CharField('Заголовок', max_length = 128) # max_length - обязательный параметр, макс кол-во символов
     description = models.TextField('Описание')
@@ -11,6 +15,8 @@ class Advs(models.Model):
     auction = models.BooleanField('Торг', help_text = 'Отметьте, если торг уместен')
     created_at = models.DateTimeField(auto_now_add = True) # заполнение только при создании
     updated_at = models.DateTimeField(auto_now = True) # заполнение при любом обновлении
+    user = models.ForeignKey(user, verbose_name = 'пользователь', on_delete = models.CASCADE) # делаем так, чтобы в объявлении было видно, кто автор. опредляем поведение постов при удалении пользователя. CASCAD - удаление всего, что связано с пользователем
+    image = models.ImageField('изображение', upload_to = 'advs/')
 
     @admin.display(description = 'дата создания') # создание столбца с красивым отображением времени создания объявления
     def created_date(self):
@@ -29,6 +35,14 @@ class Advs(models.Model):
                 '<span style = "text-shadow : 0 0 5px Lime; font-weight : bold">Сегодня в {}</span>', updated_time
             )
         return self.updated_at.strftime('%d.%m.%Y at %H:%M:%S')
+
+    @admin.display(description = 'Изображение')
+    def image_func(self):
+        if self.image:
+            return format_html(
+                '<img src = "{}" style = "width : 55px;">', self.image.url
+            )
+        return 'no image'
 
     class Meta:
         db_table = 'advertisements' # отображение названия

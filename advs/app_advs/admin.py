@@ -4,13 +4,13 @@ from django.db.models.query import QuerySet
 
 # Register your models here.
 class AdvsAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'description', 'price', 'auction', 'created_date', 'updated_date', ] # столбцы для отображения в таблице, сюда добавил функцию created_date для красивого отображения
+    list_display = ['id', 'user', 'title', 'description', 'price', 'auction', 'created_date', 'updated_date', 'image_func', ] # столбцы для отображения в таблице, сюда добавил функцию created_date для красивого отображения
     list_filter = ['price', 'auction', 'created_at', 'updated_at', ] # способы фильтрации
     actions = ['make_action_as_false', 'make_action_as_true'] # методы для выбранных записей
     fieldsets = (
         ('Общие', {# название блока
             'fields' : (
-                'title', 'description'# содержимое блока: в данном случае название и описание
+                'title', 'description', 'user', 'image'# содержимое блока: в данном случае название и описание
             )
         }),
         ('Финансы', {
