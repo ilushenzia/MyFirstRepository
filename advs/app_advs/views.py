@@ -28,7 +28,7 @@ def adv_post(request):
     return render(request, 'advs/advertisement-post.html', context)
 
 def login(request):
-    return render(request, 'advs/login.html')
+    return render(request, 'auth/login.html')
 
 def profile(request):
-    return render(request, 'advs/profile.html')
+    return render(request, 'auth/profile.html')
