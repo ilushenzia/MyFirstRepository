@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.utils import timezone
 from django.utils.html import format_html
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 # Create your models here.
 
@@ -48,3 +49,6 @@ class Advs(models.Model):
         db_table = 'advertisements' # отображение названия
     def __str__(self): # настройка отображения при запросе через
         return f'<Advertisement: Advertisement(id={self.id}, title={self.title}, price={self.price})>'
+
+    def get_absolute_url(self):
+        return reverse('adv', kwargs={'pk':self.pk})
