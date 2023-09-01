@@ -21,8 +21,9 @@
       <span style="font-weight: bold;">Разместить объявление</span>
     </a>
   </li>
+  {% if user.is_authenticated == False %}
   <li class="nav-item">
-    <a class="nav-link" href="register.html">
+    <a class="nav-link" href="{% url 'register' %}">
       <span style="font-weight: bold;">Регистрация</span>
     </a>
   </li>
@@ -31,16 +32,19 @@
       <span style="font-weight: bold;">Войти</span>
     </a>
   </li>
+  {% endif %}
+  {% if user.is_authenticated %}
   <li class="nav-item">
     <a class="nav-link" href="{% url 'profile' %}">
       <span style="font-weight: bold;">Профиль</span>
     </a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">
+    <a class="nav-link" href="{% url 'logout' %}">
       <span style="font-weight: bold;">Выйти</span>
     </a>
   </li>
+  {% endif %}
 </ul>
 
 <div id="carouselExampleControls" class="carousel slide bg-primary" data-bs-ride="carousel">

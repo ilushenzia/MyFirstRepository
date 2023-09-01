@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Advs
 from .forms import AdvForm
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     advs = Advs.objects.all()
@@ -12,6 +13,7 @@ def index(request):
 def top_sellers(request):
     return render(request, 'advs/top-sellers.html')
 
+@login_required(login_url=reverse_lazy('login'))
 def adv_post(request):
     if request.method == 'POST':
         form = AdvForm(request.POST, request.FILES)
@@ -26,9 +28,3 @@ def adv_post(request):
         form = AdvForm()
     context = {'form' : form}
     return render(request, 'advs/advertisement-post.html', context)
-
-def login(request):
-    return render(request, 'auth/login.html')
-
-def profile(request):
-    return render(request, 'auth/profile.html')
