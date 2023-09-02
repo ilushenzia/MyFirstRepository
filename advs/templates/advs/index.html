@@ -113,10 +113,11 @@
               <a href="{{ adv.get_absolute_url }}" class="nav-link"><strong>{{ adv.title }}</strong></a>
             </h5>
             <a href="{{ adv.get_absolute_url }}" class="nav-link">
-              <p class="card-text">{{ adv.description }}</p>
-              <span>Автор: {{ adv.user }}</span>
+              <p class="card-text">{{ adv.description|truncatechars:300 }}</p>
+              <p>Цена: {{ adv.price }}</p>
+              <p>Автор: {{ adv.user }}</p>
               <p class="card-text"><small class="text-muted">Размещено: {{ adv.created_date }}</small>
-              <span>Цена: {{ adv.price }}</span>
+              <p class="card-text"><small class="text-muted">Последнее обновление: {{ adv.updated_date }}</small>
             </a>
           </div>
         </div>

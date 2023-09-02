@@ -12,9 +12,9 @@ user = get_user_model()
 def index(request):
     title = request.GET.get('query')
     if title:
-        advs = Advs.objects.filter(title__icontains=title)
+        advs = Advs.objects.filter(title__icontains=title).order_by('-updated_at')
     else:
-        advs = Advs.objects.all()
+        advs = Advs.objects.all().order_by('-updated_at')
     context = {'advs' : advs,
                'title' : title,
                }

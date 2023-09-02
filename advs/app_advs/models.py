@@ -33,7 +33,7 @@ class Advs(models.Model):
         if self.updated_at.date() == timezone.now().date():
             updated_time = self.updated_at.time().strftime('%H:%M:%S')
             return format_html(
-                '<span style = "text-shadow : 0 0 5px Lime; font-weight : bold">Сегодня в {}</span>', updated_time
+                '<span style = "text-shadow : 0 0 2px Lime; font-weight : bold">Сегодня в {}</span>', updated_time
             )
         return self.updated_at.strftime('%d.%m.%Y at %H:%M:%S')
 

@@ -3,11 +3,14 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
+from app_advs.models import Advs
 
 # Create your views here.
 @login_required(login_url=reverse_lazy('login'))
 def profile_view(request):
-    return render(request, 'auth/profile.html')
+    advs = Advs.objects.filter(user=request.user)
+    context = {'advs': advs}
+    return render(request, 'auth/profile.html', context)
 
 def login_view(request):
     redirect_url = reverse('profile')

@@ -51,4 +51,39 @@
     <span class="badge bg-primary">Сейчас вы находитесь на сайте под ником {{ user }}.</span>
   </div>
 </div>
+<div class="container">
+  <h3>
+    Ваши объявления:
+  </h3>
+  {% if advs %}
+  {% for adv in advs %}
+  <div class="col">
+    <div class="card mb-2" style="max-width: 1200px; margin-top: 20px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <a href="{{ adv.get_absolute_url }}" class="nav-link">
+            <img src="{% if adv.image %} {{ adv.image.url }} {% else %} {% static 'img/pic.png' %} {% endif %}" class="img-fluid rounded-start" alt="Card title">
+          </a>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{{ adv.get_absolute_url }}" class="nav-link"><strong>{{ adv.title }}</strong></a>
+            </h5>
+            <a href="{{ adv.get_absolute_url }}" class="nav-link">
+              <p class="card-text">{{ adv.description|truncatechars:300 }}</p>
+              <p>Цена: {{ adv.price }}</p>
+              <p>Автор: {{ adv.user }}</p>
+              <p class="card-text"><small class="text-muted">Размещено: {{ adv.created_date }}</small>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% else %}
+<h4>Вы пока не выложили ни одного объявления. Хотите <a href="{% url 'adv-post' %}">выложить?</a></h4>
+{% endif %}
 {% endblock %}
